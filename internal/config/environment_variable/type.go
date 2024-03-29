@@ -11,7 +11,12 @@ type DatabaseConfig struct {
 	MaxOpenConn int           `yaml:"max_open_conns"`
 }
 
+type PortsConfig struct {
+	PersonalServiceApi string `yaml:"personal_service_api"`
+}
+
 type Config struct {
 	Env      string                    `yaml:"env"` // env: "local" | "staging" | "production"
 	Database map[string]DatabaseConfig `yaml:"database"`
+	Ports    PortsConfig               `yaml:"ports"`
 }

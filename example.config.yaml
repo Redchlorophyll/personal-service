@@ -1,0 +1,11 @@
+env: "local" # env: "local" | "staging" | "production"
+database:
+  personal_service:
+    driver: ""
+    master: ""
+    max_idle_time: 0
+    max_life_time: 0
+    max_idle_conns: 0
+    max_open_conns: 0
+ports:
+  personal_service_api: ""
