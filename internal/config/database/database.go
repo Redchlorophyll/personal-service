@@ -19,8 +19,8 @@ func InitializeDatabase(config envVariable.Config) map[string]*sql.DB {
 
 		db.SetMaxIdleConns(variable.MaxIdleConn)
 		db.SetMaxOpenConns(variable.MaxOpenConn)
-		db.SetConnMaxIdleTime(variable.MaxIdleTime * time.Minute)
-		db.SetConnMaxLifetime(variable.MaxLifeTime * time.Minute)
+		db.SetConnMaxIdleTime(time.Duration(variable.MaxIdleTime.Minutes()))
+		db.SetConnMaxLifetime(time.Duration(variable.MaxLifeTime.Minutes()))
 
 		res[key] = db
 	}

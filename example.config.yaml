@@ -3,9 +3,9 @@ database:
   personal_service:
     driver: ""
     master: ""
-    max_idle_time: 0
-    max_life_time: 0
-    max_idle_conns: 0
-    max_open_conns: 0
+    max_idle_time: "5m"
+    max_life_time: "5m"
+    max_idle_conns: 16
+    max_open_conns: 16
 ports:
-  personal_service_api: ""
+  personal_service_api: "4040"
