@@ -11,7 +11,7 @@ func GetService() *Service {
 	env := env.GetEnvironmentVariables()
 	db := database.InitializeDatabase(env)
 
-	LinkyRepository := linkyTable.NewLinkyTableRepository(linkyTable.LinkyTableRepositoryConfig{Db: db["personal-service"]})
+	LinkyRepository := linkyTable.NewLinkyTableRepository(linkyTable.LinkyTableRepositoryConfig{Db: db["personal_service"]})
 
 	return &Service{
 		LinkyService: LinkyService.NewService(LinkyService.LinkyServiceConfig{

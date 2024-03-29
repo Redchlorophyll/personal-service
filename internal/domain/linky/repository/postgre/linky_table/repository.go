@@ -1,5 +1,7 @@
 package linky_table
 
 func NewLinkyTableRepository(config LinkyTableRepositoryConfig) LinkyTableRepositoryProvider {
-	return &LinkyTableRepository{}
+	return &LinkyTableRepository{
+		Db: config.Db,
+	}
 }

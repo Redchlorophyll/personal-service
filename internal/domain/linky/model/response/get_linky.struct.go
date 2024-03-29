@@ -5,14 +5,16 @@ import (
 )
 
 type GetLinkyResponse struct {
-	Data       LinkyItem                        `json:"data"`
+	utilsResponse.GeneralResponse
+
+	Data       []LinkyItem                      `json:"data"`
 	Pagination utilsResponse.PaginationResponse `json:"pagination"`
 }
 
 type LinkyItem struct {
-	LinkyId     int    `json:"linky_id"`
-	Img         string `json:"img"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	UrlAnchor   string `json:"url_anchor"`
+	LinkyId     int    `db:"id" json:"linky_id"`
+	Img         string `db:"img_url" json:"img"`
+	Title       string `db:"title" json:"title"`
+	Description string `db:"description" json:"description"`
+	UrlAnchor   string `db:"url_anchor" json:"url_anchor"`
 }

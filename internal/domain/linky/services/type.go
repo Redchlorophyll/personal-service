@@ -9,6 +9,7 @@ import (
 )
 
 type LinkyService struct {
+	LinkyRepository linkyTable.LinkyTableRepositoryProvider
 }
 
 type LinkyServiceConfig struct {

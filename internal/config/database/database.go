@@ -5,6 +5,7 @@ import (
 	"time"
 
 	envVariable "github.com/Redchlorophyll/personal-service/internal/config/environment_variable"
+	_ "github.com/lib/pq"
 )
 
 func InitializeDatabase(config envVariable.Config) map[string]*sql.DB {
