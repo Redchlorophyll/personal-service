@@ -3,45 +3,64 @@ package linky_table
 import (
 	"context"
 
+	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
 	utilsFunction "github.com/Redchlorophyll/personal-service/internal/utils/function"
-	utilsRequest "github.com/Redchlorophyll/personal-service/internal/utils/model/request"
+	"github.com/gofiber/fiber/v2/log"
 )
 
-type LinkyRepositoryResponse struct {
-	LinkyId     int    `db:"id"`
-	Img         string `db:"img_url"`
-	Title       string `db:"title"`
-	Description string `db:"description"`
-	UrlAnchor   string `db:"url_anchor"`
-}
-
-func (repository LinkyTableRepository) GetLinky(context context.Context, pagination utilsRequest.PaginationRequestQuery) ([]response.LinkyItem, error) {
+func (repository LinkyTableRepository) GetLinky(context context.Context, request request.GetLinkyRequestQuery) ([]response.LinkyItem, error) {
 	results := []response.LinkyItem{}
+	args := []interface{}{}
 
-	offset := utilsFunction.GetPaginationOffset(pagination.Page)
+	offset := utilsFunction.GetPaginationOffset(request.Page)
 
 	query := `
 		SELECT
-			id,
-			img,
-			title,
-			description,
-			url_anchor
+			l.id,
+			l.img_url,
+			l.title,
+			l.description,
+			l.url_anchor
 		FROM
-			link
+			link AS l
+		JOIN
+			link_identifier AS li ON l.id = li.link_id
+		JOIN
+			content_identifier AS ci ON li.type_id = ci.id
 		WHERE
-			deleted_at IS NULL
+			l.deleted_at IS NULL
+	`
+
+	if request.Identifier != "" {
+		query += `
+		AND
+			ci.identifier = $1
+		ORDER BY
+			id DESC
+		LIMIT
+			$2
+		OFFSET
+			$3
+		`
+		args = append(args, request.Identifier, request.PerPage, offset)
+	} else {
+		query += `
 		ORDER BY
 			id DESC
 		LIMIT
 			$1
 		OFFSET
 			$2
-	`
+		`
 
-	rows, err := repository.Db.QueryContext(context, query, pagination.PerPage, offset)
+		args = append(args, request.PerPage, offset)
+	}
+
+	rows, err := repository.Db.QueryContext(context, query, args...)
 	if err != nil {
+		log.Error("[repository][GetLinky] error when QueryContext. ", err, request)
+
 		return results, err
 	}
 
@@ -58,35 +77,11 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, paginat
 			&item.UrlAnchor,
 		)
 		if err != nil {
-			panic(err)
+			log.Panic("[repository][GetLinky] error when rows.Scan(). ", err, request)
 		}
 
 		results = append(results, item)
 	}
 
 	return results, nil
-}
-
-func (repository LinkyTableRepository) GetTotalLinkyItem(context context.Context) (int, error) {
-
-	query := `
-		SELECT
-			COUNT(id)
-		FROM
-			link
-		WHERE
-			deleted_at IS NULL
-	`
-
-	rows, err := repository.Db.QueryContext(context, query)
-	if err != nil {
-		return 0, err
-	}
-
-	defer rows.Close()
-
-	var totalItems int
-	rows.Scan(&totalItems)
-
-	return totalItems, nil
 }
