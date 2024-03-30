@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
-	utilsRequest "github.com/Redchlorophyll/personal-service/internal/utils/model/request"
 )
 
 type LinkyTableRepository struct {
@@ -17,7 +17,9 @@ type LinkyTableRepositoryConfig struct {
 }
 
 type LinkyTableRepositoryProvider interface {
-	GetLinky(context context.Context, pagination utilsRequest.PaginationRequestQuery) ([]response.LinkyItem, error)
+	GetLinky(context context.Context, request request.GetLinkyRequestQuery) ([]response.LinkyItem, error)
 
-	GetTotalLinkyItem(context context.Context) (int, error)
+	GetTotalLinkyItem(context context.Context, request string) (int, error)
+
+	GetLinkyIdentifier(context context.Context, request string) (response.GetLinkyIdentifierResponse, error)
 }

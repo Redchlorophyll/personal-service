@@ -7,5 +7,5 @@ import (
 type GetLinkyRequestQuery struct {
 	utilsRequest.PaginationRequestQuery
 
-	Type string `query:"type"`
+	Identifier string `query:"identifier"`
 }
