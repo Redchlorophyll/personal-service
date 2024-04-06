@@ -25,6 +25,7 @@ jobs:
         owner: $SECRET_CONFIG_OWNER
         repository: $SECRET_CONFIG_REPOSITORY
         access-token: $SECRET_CONFIG_ACCESS_TOKEN
+        branch: master
 
     - name: Access cloned repository content
       run: |
