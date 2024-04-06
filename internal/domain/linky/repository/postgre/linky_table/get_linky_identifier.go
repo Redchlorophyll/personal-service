@@ -35,13 +35,15 @@ func (repository LinkyTableRepository) GetLinkyIdentifier(context context.Contex
 
 	defer rows.Close()
 
-	rows.Next()
+	for rows.Next() {
+		rows.Next()
 
-	err = rows.Scan(&result.IdentifierId, &result.Identifier, &result.Title)
-	if err != nil {
-		log.Error("[repository][GetLinkyIdentifier] error when rows.Scan(). ", err, request)
+		err = rows.Scan(&result.IdentifierId, &result.Identifier, &result.Title)
+		if err != nil {
+			log.Error("[repository][GetLinkyIdentifier] error when rows.Scan(). ", err, request)
 
-		return result, err
+			return result, err
+		}
 	}
 
 	return result, nil
