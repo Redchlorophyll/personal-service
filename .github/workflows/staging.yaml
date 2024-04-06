@@ -3,7 +3,6 @@ name: Deploy Service to Staging
 on:
   push:
     branches:
-      - master
       - staging
   workflow_dispatch:
 
@@ -34,10 +33,10 @@ jobs:
         cd ..
         cp $SECRET_CONFIG_REPOSITORY/personal-service/staging/.config.yaml .config.yaml
 
-    - name: run supabase migration staging
-      uses: actions/checkout@v3
-      uses: supabase/setup-cli@v1
+    - uses: actions/checkout@v3
+    - uses: supabase/setup-cli@v1
       with:
         version: latest
-      run: supabase link --project-ref $SUPABASE_PROJECT_ID
-      run: supabase db push
+
+    - run: supabase link --project-ref $SUPABASE_PROJECT_ID
+    - run: supabase db push
