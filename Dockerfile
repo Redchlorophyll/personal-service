@@ -34,6 +34,8 @@ RUN go mod download
 # Build the application
 RUN go build -o build/monolith ./cmd/httpservice/personal_service
 
+RUN apk del git
+
 # Runtime stage
 FROM alpine:latest
 
