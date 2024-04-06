@@ -10,7 +10,7 @@ ARG GIT_EMAIL
 ARG PAT_TOKEN
 ARG ENV_PATH
 ENV GITHUB_TOKEN=$PAT_TOKEN
-ENV ENV_PATH=$ENV_PATH/.config.yaml
+ENV ENV_PATH=$ENV_PATH
 ENV GIT_USERNAME=$GIT_USERNAME
 ENV GIT_EMAIL=$GIT_EMAIL
 
@@ -21,7 +21,7 @@ RUN git config --global user.name "$GIT_USERNAME" && \
 WORKDIR /app
 
 # Clone the private repository
-RUN git clone https://$GIT_USERNAME:$PAT_TOKEN@github.com/Redchlorophyll/secret-env.git 
+# RUN git clone https://$GIT_USERNAME:$PAT_TOKEN@github.com/Redchlorophyll/secret-env.git 
 
 # Copy the application files into the working directory
 COPY . /app
@@ -37,14 +37,14 @@ FROM alpine:latest
 
 # Set environment variable for PAT
 ARG ENV_PATH
-ENV ENV_PATH=$ENV_PATH/.config.yaml
+ENV ENV_PATH=$ENV_PATH
 
 # Set the working directory in the container
 WORKDIR /app
 
 # Copy only the build binary from the builder image
 COPY --from=builder /app/build .
-COPY --from=builder /app/$ENV_PATH .
+# COPY --from=builder /app/$ENV_PATH .
 
 # Expose port 8080
 EXPOSE 8080
