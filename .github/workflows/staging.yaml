@@ -30,8 +30,6 @@ jobs:
     - name: Access cloned repository content
       run: |
         cd $SECRET_CONFIG_REPOSITORY
-        ls -la
-        cd ..
         cp $SECRET_CONFIG_REPOSITORY/personal-services/staging/.config.yaml .config.yaml
 
     - uses: actions/checkout@v3

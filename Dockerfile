@@ -22,6 +22,9 @@ WORKDIR /app
 # Copy only the build binary from the builder image
 COPY --from=builder /app/build .
 
+# Copy config.yaml from the root directory
+COPY .config.yaml /app
+
 # Expose port 8080
 EXPOSE 8080
 
