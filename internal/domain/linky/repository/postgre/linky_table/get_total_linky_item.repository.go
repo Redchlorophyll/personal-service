@@ -40,13 +40,13 @@ func (repository LinkyTableRepository) GetTotalLinkyItem(context context.Context
 
 	var totalItems int
 
-	rows.Next()
+	for rows.Next() {
+		err = rows.Scan(&totalItems)
+		if err != nil {
+			log.Error("[repository][GetTotalLinkyItem] error when rows.Scan(). ", err)
 
-	err = rows.Scan(&totalItems)
-	if err != nil {
-		log.Error("[repository][GetTotalLinkyItem] error when rows.Scan(). ", err)
-
-		return totalItems, err
+			return totalItems, err
+		}
 	}
 
 	return totalItems, nil
