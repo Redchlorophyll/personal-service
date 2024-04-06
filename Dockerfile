@@ -2,20 +2,20 @@
 FROM golang:1.21.6-alpine3.19 as builder
 
 # Install git
-RUN apk --no-cache add git
+# RUN apk --no-cache add git
 
 # Set environment variable for PAT
-ARG GIT_USERNAME
-ARG GIT_EMAIL
-ARG PAT_TOKEN
-ARG ENV_PATH
-ENV GITHUB_TOKEN=$PAT_TOKEN
-ENV ENV_PATH=$ENV_PATH
-ENV GIT_USERNAME=$GIT_USERNAME
-ENV GIT_EMAIL=$GIT_EMAIL
+# ARG GIT_USERNAME
+# ARG GIT_EMAIL
+# ARG PAT_TOKEN
+# ARG ENV_PATH
+# ENV GITHUB_TOKEN=$PAT_TOKEN
+# ENV ENV_PATH=$ENV_PATH
+# ENV GIT_USERNAME=$GIT_USERNAME
+# ENV GIT_EMAIL=$GIT_EMAIL
 
-RUN git config --global user.name "$GIT_USERNAME" && \
-    git config --global user.email "$GIT_EMAIL"
+# RUN git config --global user.name "$GIT_USERNAME" && \
+#     git config --global user.email "$GIT_EMAIL"
 
 # Set the working directory in the container
 WORKDIR /app
@@ -36,8 +36,8 @@ RUN go build -o build/monolith ./cmd/httpservice/personal_service
 FROM alpine:latest
 
 # Set environment variable for PAT
-ARG ENV_PATH
-ENV ENV_PATH=$ENV_PATH
+# ARG ENV_PATH
+# ENV ENV_PATH=$ENV_PATH
 
 # Set the working directory in the container
 WORKDIR /app
