@@ -32,7 +32,7 @@ jobs:
         cd $SECRET_CONFIG_REPOSITORY
         ls -la
         cd ..
-        cp $SECRET_CONFIG_REPOSITORY/personal-service/staging/.config.yaml .config.yaml
+        cp {$SECRET_CONFIG_REPOSITORY}/personal-services/staging/.config.yaml .config.yaml
 
     - uses: actions/checkout@v3
     - uses: supabase/setup-cli@v1
