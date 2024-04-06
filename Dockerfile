@@ -5,14 +5,16 @@ FROM golang:1.21.6-alpine3.19 as builder
 RUN apk --no-cache add git
 
 # Set environment variable for builder
-ARG GIT_USERNAME
-ARG GIT_EMAIL
+ARG GIT_PERSONAL_USERNAME
+ARG GIT_PERSONAL_EMAIL
 ARG PAT_TOKEN
 ARG ENV_PATH
+ARG SECRET_REPO
 ENV GITHUB_TOKEN=$PAT_TOKEN
 ENV ENV_PATH=$ENV_PATH
 ENV GIT_USERNAME=$GIT_PERSONAL_USERNAME
 ENV GIT_EMAIL=$GIT_PERSONAL_EMAIL
+ENV SECRET_REPO=$SECRET_REPO
 
 RUN git config --global user.name "$GIT_USERNAME" && \
     git config --global user.email "$GIT_EMAIL"
@@ -21,7 +23,7 @@ RUN git config --global user.name "$GIT_USERNAME" && \
 WORKDIR /app
 
 # Clone the private repository
-RUN git clone https://$GIT_USERNAME:$PAT_TOKEN@github.com/Redchlorophyll/secret-env.git 
+RUN git clone https://$GIT_USERNAME:$PAT_TOKEN@github.com/$GIT_USERNAME/$SECRET_REPO
 
 # Copy the application files into the working directory
 COPY . /app
