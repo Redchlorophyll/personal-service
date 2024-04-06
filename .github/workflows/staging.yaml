@@ -28,8 +28,8 @@ jobs:
         branch: master
 
     - name: Access cloned repository content
-      run: |
-        cp $SECRET_CONFIG_REPOSITORY/personal-services/staging/.config.yaml .config.yaml
+      run: cp $SECRET_CONFIG_REPOSITORY/personal-services/staging/.config.yaml .config.yaml
+        
 
     - uses: actions/checkout@v3
     - uses: supabase/setup-cli@v1
