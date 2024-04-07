@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    if: github.ref == 'refs/heads/master'
   deploy:
+    if: github.ref == 'refs/heads/master'
+
     runs-on: ubuntu-latest
 
     env:
