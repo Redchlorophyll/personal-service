@@ -2,11 +2,13 @@ name: Deploy Migrations to Production
 
 on:
   push:
-  branches:
-      - master
+    branches:
+        - master
   workflow_dispatch:
 
 jobs:
+  build:
+    if: github.ref == 'refs/heads/master'
   deploy:
     runs-on: ubuntu-latest
 
