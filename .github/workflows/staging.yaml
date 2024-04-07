@@ -1,4 +1,4 @@
-name: Deploy Service to Staging
+name: Deploy Migrations to Staging
 
 on:
   push:
@@ -8,29 +8,16 @@ on:
 
 jobs:
   deploy:
+    if: github.ref == 'refs/heads/staging'
+
     runs-on: ubuntu-latest
 
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
       SUPABASE_PROJECT_ID: ${{ secrets.STAGING_PROJECT_ID }}
-      SECRET_CONFIG_OWNER: ${{ secrets.SECRET_CONFIG_OWNER }}
-      SECRET_CONFIG_REPOSITORY: ${{ secrets.SECRET_CONFIG_REPOSITORY }}
-      SECRET_CONFIG_ACCESS_TOKEN: ${{ secrets.SECRET_CONFIG_ACCESS_TOKEN }}
 
     steps:
-    - name: Clone GuillaumeFalourd/formulas-training PRIVATE repository
-      uses: GuillaumeFalourd/clone-github-repo-action@v2.3
-      with:
-        owner: $SECRET_CONFIG_OWNER
-        repository: $SECRET_CONFIG_REPOSITORY
-        access-token: $SECRET_CONFIG_ACCESS_TOKEN
-        branch: master
-
-    - name: Access cloned repository content
-      run: cp $SECRET_CONFIG_REPOSITORY/personal-services/staging/.config.yaml .config.yaml
-        
-
     - uses: actions/checkout@v3
     - uses: supabase/setup-cli@v1
       with:
