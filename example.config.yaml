@@ -1,8 +1,8 @@
 env: "local" # env: "local" | "staging" | "production"
 database:
   personal_service:
-    driver: ""
-    master: ""
+    driver: "postgres"
+    master: "postgresql://postgres:postgres@localhost:54322/postgres?sslmode=disable"
     max_idle_time: "5m"
     max_life_time: "5m"
     max_idle_conns: 16
