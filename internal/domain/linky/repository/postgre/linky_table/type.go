@@ -22,4 +22,10 @@ type LinkyTableRepositoryProvider interface {
 	GetTotalLinkyItem(context context.Context, request string) (int, error)
 
 	GetLinkyIdentifier(context context.Context, request string) (response.GetLinkyIdentifierResponse, error)
+
+	GetLinkyIdentifierById(context context.Context, request *int) (response.GetLinkyIdentifierResponse, error)
+
+	CreateLinky(context context.Context, request CreateLinkyRequest) (*int, error)
+
+	CreateLinkyIdentifier(context context.Context, request CreateLinkyIdentifierRequest) error
 }
