@@ -6,6 +6,7 @@ import (
 	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
 	linkyTable "github.com/Redchlorophyll/personal-service/internal/domain/linky/repository/postgre/linky_table"
+	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
 )
 
 type LinkyService struct {
@@ -18,4 +19,6 @@ type LinkyServiceConfig struct {
 
 type LinkyServiceProvider interface {
 	GetLinky(context context.Context, request request.GetLinkyRequestQuery) (response.GetLinkyResponse, error)
+
+	CreateLinky(context context.Context, request CreateLinkyRequest) (utilsResponse.GeneralResponse, error)
 }

@@ -15,7 +15,10 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 
 	offset := utilsFunction.GetPaginationOffset(request.Page)
 
-	query := `
+	var query string
+
+	if request.Identifier != "" {
+		query = `
 		SELECT
 			l.id,
 			l.img_url,
@@ -30,10 +33,6 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 			content_identifier AS ci ON li.type_id = ci.id
 		WHERE
 			l.deleted_at IS NULL
-	`
-
-	if request.Identifier != "" {
-		query += `
 		AND
 			ci.identifier = $1
 		ORDER BY
@@ -43,9 +42,18 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 		OFFSET
 			$3
 		`
+
 		args = append(args, request.Identifier, request.PerPage, offset)
 	} else {
-		query += `
+		query = `
+		SELECT
+			l.id,
+			l.img_url,
+			l.title,
+			l.description,
+			l.url_anchor
+		FROM
+			link AS l
 		ORDER BY
 			id DESC
 		LIMIT

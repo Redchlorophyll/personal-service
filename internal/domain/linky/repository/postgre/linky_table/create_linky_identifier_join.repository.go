@@ -7,8 +7,8 @@ import (
 )
 
 type CreateLinkyIdentifierRequest struct {
-	ContentIdentiferId int
-	LinkId             int
+	ContentIdentiferId *int
+	LinkId             *int
 }
 
 func (repository LinkyTableRepository) CreateLinkyIdentifier(context context.Context, request CreateLinkyIdentifierRequest) error {
@@ -18,7 +18,6 @@ func (repository LinkyTableRepository) CreateLinkyIdentifier(context context.Con
 			(type_id, link_id)
 		VALUES
 			($1, $2)
-		RETURNING id
 	`
 
 	_, err := repository.Db.ExecContext(

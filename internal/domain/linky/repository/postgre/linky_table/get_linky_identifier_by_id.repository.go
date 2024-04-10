@@ -36,8 +36,6 @@ func (repository LinkyTableRepository) GetLinkyIdentifierById(context context.Co
 	defer rows.Close()
 
 	for rows.Next() {
-		rows.Next()
-
 		err = rows.Scan(&result.IdentifierId, &result.Identifier, &result.Title)
 		if err != nil {
 			log.Error("[repository][GetLinkyIdentifierById] error when rows.Scan(). ", err, request)

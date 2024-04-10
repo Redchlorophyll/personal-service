@@ -16,7 +16,8 @@ type PortsConfig struct {
 }
 
 type Config struct {
-	Env      string                    `yaml:"env"` // env: "local" | "staging" | "production"
-	Database map[string]DatabaseConfig `yaml:"database"`
-	Ports    PortsConfig               `yaml:"ports"`
+	Env         string                    `yaml:"env"` // env: "local" | "staging" | "production"
+	Database    map[string]DatabaseConfig `yaml:"database"`
+	Ports       PortsConfig               `yaml:"ports"`
+	SecretToken string                    `yaml:"secret_token"`
 }
