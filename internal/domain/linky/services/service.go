@@ -2,6 +2,7 @@ package services
 
 func NewService(config LinkyServiceConfig) LinkyServiceProvider {
 	return &LinkyService{
-		LinkyRepository: config.LinkyRepository,
+		LinkyRepository:             config.LinkyRepository,
+		ContentIdentifierRepository: config.ContentIdentifierRepository,
 	}
 }

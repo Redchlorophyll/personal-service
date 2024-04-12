@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (handler *LinkyHandler) CreateLinky(fiberContext *fiber.Ctx) error {
+func (handler *LinkyHandler) CreateIdentifier(fiberContext *fiber.Ctx) error {
 	token := fiberContext.Cookies("token")
 	tokenFromEnv := env.GetEnvironmentVariables().SecretToken
 	if token != tokenFromEnv {
@@ -17,7 +17,7 @@ func (handler *LinkyHandler) CreateLinky(fiberContext *fiber.Ctx) error {
 		})
 	}
 
-	var request services.CreateLinkyRequest
+	var request services.CreateIdentifierRequest
 
 	err := fiberContext.BodyParser(&request)
 	if err != nil {
@@ -27,7 +27,7 @@ func (handler *LinkyHandler) CreateLinky(fiberContext *fiber.Ctx) error {
 		})
 	}
 
-	result, err := handler.LinkyService.CreateLinky(fiberContext.Context(), request)
+	result, err := handler.LinkyService.CreateIdentifier(fiberContext.Context(), request)
 	if err != nil {
 		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
 			StatusCode: 500,
