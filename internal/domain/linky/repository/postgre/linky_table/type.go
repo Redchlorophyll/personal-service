@@ -28,4 +28,8 @@ type LinkyTableRepositoryProvider interface {
 	CreateLinky(context context.Context, request CreateLinkyRequest) (*int, error)
 
 	CreateLinkyIdentifier(context context.Context, request CreateLinkyIdentifierRequest) error
+
+	SoftDeleteLinky(context context.Context, request int) error
+
+	UpdateLinky(context context.Context, request UpdateLinkyRequest) error
 }
