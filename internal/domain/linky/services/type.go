@@ -28,4 +28,6 @@ type LinkyServiceProvider interface {
 	CreateIdentifier(context context.Context, request CreateIdentifierRequest) (utilsResponse.GeneralResponse, error)
 
 	DeleteLinky(context context.Context, request int) (utilsResponse.GeneralResponse, error)
+
+	UpdateLinky(context context.Context, request UpdateLinkyRequest) (utilsResponse.GeneralResponse, error)
 }

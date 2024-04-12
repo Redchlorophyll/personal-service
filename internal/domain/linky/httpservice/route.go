@@ -8,7 +8,7 @@ func (handler *LinkyHandler) SetRoute(app *fiber.App) {
 	group.Get("/link", handler.GetLinky)
 	group.Post("/link", handler.CreateLinky)
 	group.Post("/link/identifier", handler.CreateIdentifier)
-	// group.Patch("/link/:linkId", handler.DeleteLinky)
+	group.Patch("/link/:linkId", handler.UpdateLinky)
 	group.Delete("/link/:linkId", handler.DeleteLinky)
 
 	// group.Post("/ping")
