@@ -3,15 +3,11 @@ package linky_table
 import (
 	"context"
 
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type CreateLinkyIdentifierRequest struct {
-	ContentIdentiferId *int
-	LinkId             *int
-}
-
-func (repository LinkyTableRepository) CreateLinkyIdentifier(context context.Context, request CreateLinkyIdentifierRequest) error {
+func (repository LinkyTableRepository) CreateLinkyIdentifier(context context.Context, request modelRequest.CreateLinkyIdentifierRequest) error {
 	query := `
 		INSERT INTO 
 			link_identifier 

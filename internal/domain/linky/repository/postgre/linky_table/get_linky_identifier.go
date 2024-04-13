@@ -3,12 +3,12 @@ package linky_table
 import (
 	"context"
 
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
+	modelResponse "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-func (repository LinkyTableRepository) GetLinkyIdentifier(context context.Context, request string) (response.GetLinkyIdentifierResponse, error) {
-	var result response.GetLinkyIdentifierResponse
+func (repository LinkyTableRepository) GetLinkyIdentifier(context context.Context, request string) (modelResponse.GetLinkyIdentifierResponse, error) {
+	var result modelResponse.GetLinkyIdentifierResponse
 
 	if request == "" {
 		return result, nil

@@ -3,19 +3,11 @@ package linky_table
 import (
 	"context"
 
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type UpdateLinkyRequest struct {
-	IdentiferId int    `json:"identifier_id"`
-	Title       string `json:"title" db:"title"`
-	Description string `json:"description" db:"description"`
-	UrlAnchor   string `json:"url_anchhor" db:"url_anchor"`
-	ImageUrl    string `json:"img_url" db:"img_url"`
-	Id          int
-}
-
-func (repository *LinkyTableRepository) UpdateLinky(context context.Context, request UpdateLinkyRequest) error {
+func (repository *LinkyTableRepository) UpdateLinky(context context.Context, request modelRequest.UpdateLinkyRequest) error {
 	query := `
 	UPDATE link
 	SET 

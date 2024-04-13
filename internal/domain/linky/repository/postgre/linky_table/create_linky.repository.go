@@ -3,18 +3,11 @@ package linky_table
 import (
 	"context"
 
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type CreateLinkyRequest struct {
-	IdentiferId int    `json:"identifier_id"`
-	Title       string `json:"title" db:"title"`
-	Description string `json:"description" db:"description"`
-	UrlAnchor   string `json:"url_anchhor" db:"url_anchor"`
-	ImageUrl    string `json:"img_url" db:"img_url"`
-}
-
-func (repository LinkyTableRepository) CreateLinky(context context.Context, request CreateLinkyRequest) (*int, error) {
+func (repository LinkyTableRepository) CreateLinky(context context.Context, request modelRequest.CreateLinkyRequest) (*int, error) {
 	var result int
 
 	query := `

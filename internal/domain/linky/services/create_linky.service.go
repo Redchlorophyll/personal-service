@@ -3,20 +3,12 @@ package services
 import (
 	"context"
 
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/repository/postgre/linky_table"
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type CreateLinkyRequest struct {
-	IdentiferId int    `json:"identifier_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	UrlAnchor   string `json:"url_anchhor"`
-	ImageUrl    string `json:"img_url"`
-}
-
-func (service *LinkyService) CreateLinky(context context.Context, request CreateLinkyRequest) (utilsResponse.GeneralResponse, error) {
+func (service *LinkyService) CreateLinky(context context.Context, request modelRequest.CreateLinkyRequest) (utilsResponse.GeneralResponse, error) {
 	_, err := service.LinkyRepository.GetLinkyIdentifierById(
 		context,
 		&request.IdentiferId,
@@ -34,7 +26,7 @@ func (service *LinkyService) CreateLinky(context context.Context, request Create
 	// create linky data
 	id, err := service.LinkyRepository.CreateLinky(
 		context,
-		linky_table.CreateLinkyRequest(request),
+		request,
 	)
 	if err != nil {
 		log.Error("[service][CreateLinky] error when execute sql query in CreateLinky function. ", err, context, request)
@@ -47,7 +39,7 @@ func (service *LinkyService) CreateLinky(context context.Context, request Create
 	}
 
 	// add join row for link & link identifier
-	err = service.LinkyRepository.CreateLinkyIdentifier(context, linky_table.CreateLinkyIdentifierRequest{
+	err = service.LinkyRepository.CreateLinkyIdentifier(context, modelRequest.CreateLinkyIdentifierRequest{
 		ContentIdentiferId: &request.IdentiferId,
 		LinkId:             id,
 	})

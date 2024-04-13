@@ -3,15 +3,11 @@ package content_identifier_table
 import (
 	"context"
 
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-type CreateIdentifierRequest struct {
-	Identifier string
-	Title      string
-}
-
-func (repository *ContentIdentifierTableRepository) CreateIdentifier(context context.Context, request CreateIdentifierRequest) error {
+func (repository *ContentIdentifierTableRepository) CreateIdentifier(context context.Context, request modelRequest.CreateIdentifierRequest) error {
 	query := `
 		INSERT INTO 
 			content_identifier 

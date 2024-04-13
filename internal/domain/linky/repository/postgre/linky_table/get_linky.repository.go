@@ -3,14 +3,14 @@ package linky_table
 import (
 	"context"
 
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	modelResponse "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
 	utilsFunction "github.com/Redchlorophyll/personal-service/internal/utils/function"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-func (repository LinkyTableRepository) GetLinky(context context.Context, request request.GetLinkyRequestQuery) ([]response.LinkyItem, error) {
-	results := []response.LinkyItem{}
+func (repository LinkyTableRepository) GetLinky(context context.Context, request modelRequest.GetLinkyRequestQuery) ([]modelResponse.LinkyItem, error) {
+	results := []modelResponse.LinkyItem{}
 	args := []interface{}{}
 
 	offset := utilsFunction.GetPaginationOffset(request.Page)
@@ -75,7 +75,7 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 	defer rows.Close()
 
 	for rows.Next() {
-		var item response.LinkyItem
+		var item modelResponse.LinkyItem
 
 		err := rows.Scan(
 			&item.LinkyId,

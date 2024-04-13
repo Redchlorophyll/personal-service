@@ -2,7 +2,7 @@ package httpservice
 
 import (
 	env "github.com/Redchlorophyll/personal-service/internal/config/environment_variable"
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/services"
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
 	"github.com/gofiber/fiber/v2"
 )
@@ -17,7 +17,7 @@ func (handler *LinkyHandler) CreateLinky(fiberContext *fiber.Ctx) error {
 		})
 	}
 
-	var request services.CreateLinkyRequest
+	var request modelRequest.CreateLinkyRequest
 
 	err := fiberContext.BodyParser(&request)
 	if err != nil {
