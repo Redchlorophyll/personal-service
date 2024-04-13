@@ -14,9 +14,8 @@ func (service *LinkyService) UpdateLinky(context context.Context, request modelR
 	err := service.LinkyRepository.UpdateLinky(context, request)
 	if err != nil {
 		log.Error("[service][UpdateLinky] error when execute sql query in UpdateLinky(). ", err, context, request)
-		errorCode := 1
+
 		return utilsResponse.GeneralResponse{
-			ErrorCode:  &errorCode,
 			StatusCode: fiber.StatusInternalServerError,
 			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil

@@ -17,9 +17,8 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 	)
 	if err != nil {
 		log.Error("[service][CreateLinky] error when querying data in GetLinkyIdentifierById function. ", err, context, request)
-		errorCode := 1
+
 		return utilsResponse.GeneralResponse{
-			ErrorCode:  &errorCode,
 			StatusCode: fiber.StatusInternalServerError,
 			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil
@@ -33,9 +32,7 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 	if err != nil {
 		log.Error("[service][CreateLinky] error when execute sql query in CreateLinky function. ", err, context, request)
 
-		errorCode := 1
 		return utilsResponse.GeneralResponse{
-			ErrorCode:  &errorCode,
 			StatusCode: fiber.StatusInternalServerError,
 			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil
@@ -49,9 +46,7 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 	if err != nil {
 		log.Error("[service][CreateLinky] error when execute sql query in CreateLinkyIdentifier(). ", err, context, request)
 
-		errorCode := 1
 		return utilsResponse.GeneralResponse{
-			ErrorCode:  &errorCode,
 			StatusCode: fiber.StatusInternalServerError,
 			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil

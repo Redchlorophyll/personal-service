@@ -18,9 +18,7 @@ func (service *LinkyService) CreateIdentifier(context context.Context, request r
 	if err != nil {
 		log.Error("[service][CreateLinky] error when execute sql query in CreateLinky(). ", err, context, request)
 
-		errorCode := 1
 		return utilsResponse.GeneralResponse{
-			ErrorCode:  &errorCode,
 			StatusCode: fiber.StatusInternalServerError,
 			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil

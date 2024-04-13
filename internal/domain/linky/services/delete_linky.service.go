@@ -13,9 +13,8 @@ func (service *LinkyService) DeleteLinky(context context.Context, request int) (
 	err := service.LinkyRepository.SoftDeleteLinky(context, request)
 	if err != nil {
 		log.Error("[service][DeleteLinky] error when querying data in GetLinkyIdentifierById(). ", err, context, request)
-		errorCode := 1
+
 		return utilsResponse.GeneralResponse{
-			ErrorCode:  &errorCode,
 			StatusCode: fiber.StatusInternalServerError,
 			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil
