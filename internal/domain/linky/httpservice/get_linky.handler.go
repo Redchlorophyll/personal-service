@@ -33,7 +33,7 @@ func (handler *LinkyHandler) GetLinky(fiberContext *fiber.Ctx) error {
 	result, err := handler.LinkyService.GetLinky(fiberContext.Context(), request)
 
 	if err != nil {
-		log.Error("[handler][GetLinky] error GetLinky service function. ", err, request)
+		log.Error("[handler][GetLinky] error when execute GetLinky(). ", err, request)
 
 		return fiberContext.Status(fiber.StatusInternalServerError).JSON(modelResponse.GeneralResponse{
 			StatusCode: 500,

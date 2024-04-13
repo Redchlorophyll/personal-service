@@ -20,7 +20,7 @@ func (service *LinkyService) GetLinky(context context.Context, request requestMo
 		Identifier: request.Identifier,
 	})
 	if err != nil {
-		log.Error("[service][GetLinky] error when querying data in getLinky function. ", err, context, request)
+		log.Error("[service][GetLinky] error when querying data in getLinky(). ", err, context, request)
 
 		return response.GetLinkyResponse{
 			GeneralResponse: utilsResponse.GeneralResponse{
@@ -34,7 +34,7 @@ func (service *LinkyService) GetLinky(context context.Context, request requestMo
 
 	totalItem, err := service.LinkyRepository.GetTotalLinkyItem(context, request.Identifier)
 	if err != nil {
-		log.Error("[service][GetLinky] error when querying data in GetTotalLinkyItem function. ", err, context, request)
+		log.Error("[service][GetLinky] error when querying data in GetTotalLinkyItem(). ", err, context, request)
 
 		return response.GetLinkyResponse{
 			GeneralResponse: utilsResponse.GeneralResponse{

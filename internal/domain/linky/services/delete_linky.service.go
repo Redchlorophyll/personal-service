@@ -10,7 +10,7 @@ import (
 func (service *LinkyService) DeleteLinky(context context.Context, request int) (utilsResponse.GeneralResponse, error) {
 	err := service.LinkyRepository.SoftDeleteLinky(context, request)
 	if err != nil {
-		log.Error("[service][DeleteLinky] error when querying data in GetLinkyIdentifierById function. ", err, context, request)
+		log.Error("[service][DeleteLinky] error when querying data in GetLinkyIdentifierById(). ", err, context, request)
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,

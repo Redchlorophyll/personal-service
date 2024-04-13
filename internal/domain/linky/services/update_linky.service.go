@@ -11,7 +11,7 @@ import (
 func (service *LinkyService) UpdateLinky(context context.Context, request modelRequest.UpdateLinkyRequest) (utilsResponse.GeneralResponse, error) {
 	err := service.LinkyRepository.UpdateLinky(context, request)
 	if err != nil {
-		log.Error("[service][UpdateLinky] error when execute sql query in UpdateLinky function. ", err, context, request)
+		log.Error("[service][UpdateLinky] error when execute sql query in UpdateLinky(). ", err, context, request)
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,

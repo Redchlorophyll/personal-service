@@ -23,7 +23,7 @@ func (repository LinkyTableRepository) CreateLinkyIdentifier(context context.Con
 		request.LinkId,
 	)
 	if err != nil {
-		log.Error("[repository][CreateLinky] error when CreateLinkyIdentifier(). ", err, request)
+		log.Error("[repository][CreateLinkyIdentifier] error when ExecContext(). ", err, request)
 
 		return err
 	}

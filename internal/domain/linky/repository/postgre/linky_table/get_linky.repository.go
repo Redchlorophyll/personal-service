@@ -67,7 +67,7 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 
 	rows, err := repository.Db.QueryContext(context, query, args...)
 	if err != nil {
-		log.Error("[repository][GetLinky] error when QueryContext. ", err, request)
+		log.Error("[repository][GetLinky] error when QueryContext(). ", err, request)
 
 		return results, err
 	}
@@ -85,7 +85,7 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 			&item.UrlAnchor,
 		)
 		if err != nil {
-			log.Panic("[repository][GetLinky] error when rows.Scan(). ", err, request)
+			log.Panic("[repository][GetLinky] error when Scan(). ", err, request)
 		}
 
 		results = append(results, item)

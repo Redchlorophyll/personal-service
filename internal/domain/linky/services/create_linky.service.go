@@ -30,6 +30,7 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 	)
 	if err != nil {
 		log.Error("[service][CreateLinky] error when execute sql query in CreateLinky function. ", err, context, request)
+
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,
@@ -44,7 +45,8 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 		LinkId:             id,
 	})
 	if err != nil {
-		log.Error("[service][CreateLinky] error when execute sql query in CreateLinkyIdentifier function. ", err, context, request)
+		log.Error("[service][CreateLinky] error when execute sql query in CreateLinkyIdentifier(). ", err, context, request)
+
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,

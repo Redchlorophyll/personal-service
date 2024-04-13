@@ -28,7 +28,7 @@ func (repository LinkyTableRepository) GetLinkyIdentifierById(context context.Co
 
 	rows, err := repository.Db.QueryContext(context, query, request)
 	if err != nil {
-		log.Error("[repository][GetLinkyIdentifierById] error when QueryContext. ", err, request)
+		log.Error("[repository][GetLinkyIdentifierById] error when QueryContext(). ", err, request)
 
 		return result, err
 	}
@@ -38,7 +38,7 @@ func (repository LinkyTableRepository) GetLinkyIdentifierById(context context.Co
 	for rows.Next() {
 		err = rows.Scan(&result.IdentifierId, &result.Identifier, &result.Title)
 		if err != nil {
-			log.Error("[repository][GetLinkyIdentifierById] error when rows.Scan(). ", err, request)
+			log.Error("[repository][GetLinkyIdentifierById] error when Scan(). ", err, request)
 
 			return result, err
 		}
