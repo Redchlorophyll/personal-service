@@ -4,7 +4,9 @@ import (
 	"context"
 
 	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	utilsConstant "github.com/Redchlorophyll/personal-service/internal/utils/constant"
 	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 )
 
@@ -18,8 +20,8 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,
-			StatusCode: 500,
-			Message:    "Internal Server Error, Please try again later!",
+			StatusCode: fiber.StatusInternalServerError,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil
 	}
 
@@ -34,8 +36,8 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,
-			StatusCode: 500,
-			Message:    "Internal Server Error, Please try again later!",
+			StatusCode: fiber.StatusInternalServerError,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil
 	}
 
@@ -50,13 +52,13 @@ func (service *LinkyService) CreateLinky(context context.Context, request modelR
 		errorCode := 1
 		return utilsResponse.GeneralResponse{
 			ErrorCode:  &errorCode,
-			StatusCode: 500,
-			Message:    "Internal Server Error, Please try again later!",
+			StatusCode: fiber.StatusInternalServerError,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		}, nil
 	}
 
 	return utilsResponse.GeneralResponse{
-		StatusCode: 200,
-		Message:    "Success create linky data!",
+		StatusCode: fiber.StatusOK,
+		Message:    "success create linky data",
 	}, nil
 }

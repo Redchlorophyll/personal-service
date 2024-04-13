@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	utilsConstant "github.com/Redchlorophyll/personal-service/internal/utils/constant"
 	utilsRequest "github.com/Redchlorophyll/personal-service/internal/utils/model/request"
 	modelResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
 
@@ -36,8 +37,8 @@ func (handler *LinkyHandler) GetLinky(fiberContext *fiber.Ctx) error {
 		log.Error("[handler][GetLinky] error when execute GetLinky(). ", err, request)
 
 		return fiberContext.Status(fiber.StatusInternalServerError).JSON(modelResponse.GeneralResponse{
-			StatusCode: 500,
-			Message:    "there is something wrong in the system, please contact developer",
+			StatusCode: fiber.StatusInternalServerError,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		})
 	}
 

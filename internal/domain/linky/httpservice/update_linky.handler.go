@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	utilsConstant "github.com/Redchlorophyll/personal-service/internal/utils/constant"
 	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
@@ -17,8 +18,8 @@ func (handler *LinkyHandler) UpdateLinky(fiberContext *fiber.Ctx) error {
 		log.Error("[handler][UpdateLinky] error when BodyParser(). ", err)
 
 		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
-			StatusCode: 400,
-			Message:    "Bad Request!",
+			StatusCode: fiber.StatusBadRequest,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusBadRequest].Error(),
 		})
 	}
 
@@ -27,8 +28,8 @@ func (handler *LinkyHandler) UpdateLinky(fiberContext *fiber.Ctx) error {
 		log.Error("[handler][UpdateLinky] error when Params(). ", err)
 
 		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
-			StatusCode: 400,
-			Message:    "Bad Request!",
+			StatusCode: fiber.StatusBadRequest,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusBadRequest].Error(),
 		})
 	}
 	request.Id = linkId
@@ -37,9 +38,9 @@ func (handler *LinkyHandler) UpdateLinky(fiberContext *fiber.Ctx) error {
 	if err != nil {
 		log.Error("[handler][UpdateLinky] error when execute service UpdateLinky(). ", err, request)
 
-		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
-			StatusCode: 500,
-			Message:    "Internal Server Error, Please try again later!",
+		return fiberContext.Status(fiber.StatusInternalServerError).JSON(utilsResponse.GeneralResponse{
+			StatusCode: fiber.StatusInternalServerError,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		})
 	}
 
