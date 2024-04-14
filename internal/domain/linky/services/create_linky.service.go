@@ -11,7 +11,17 @@ import (
 )
 
 func (service *LinkyService) CreateLinky(context context.Context, request modelRequest.CreateLinkyRequest) (utilsResponse.GeneralResponse, error) {
-	_, err := service.LinkyRepository.GetLinkyIdentifierById(
+	err := request.Validator()
+	if err != nil {
+		log.Error("[service][CreateLinky] error when execute request.Validator(). ", err, context, request)
+
+		return utilsResponse.GeneralResponse{
+			StatusCode: fiber.StatusBadRequest,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusBadRequest].Error(),
+		}, nil
+	}
+
+	_, err = service.LinkyRepository.GetLinkyIdentifierById(
 		context,
 		&request.IdentiferId,
 	)

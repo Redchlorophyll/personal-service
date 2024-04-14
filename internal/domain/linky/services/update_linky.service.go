@@ -11,7 +11,17 @@ import (
 )
 
 func (service *LinkyService) UpdateLinky(context context.Context, request modelRequest.UpdateLinkyRequest) (utilsResponse.GeneralResponse, error) {
-	err := service.LinkyRepository.UpdateLinky(context, request)
+	err := request.Validator()
+	if err != nil {
+		log.Error("[service][UpdateLinky] error when execute request.Validator(). ", err, context, request)
+
+		return utilsResponse.GeneralResponse{
+			StatusCode: fiber.StatusBadRequest,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusBadRequest].Error(),
+		}, nil
+	}
+
+	err = service.LinkyRepository.UpdateLinky(context, request)
 	if err != nil {
 		log.Error("[service][UpdateLinky] error when execute sql query in UpdateLinky(). ", err, context, request)
 
