@@ -7,10 +7,10 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 )
 
-func (repository LinkyTableRepository) GetLinkyIdentifier(context context.Context, request string) (modelResponse.GetLinkyIdentifierResponse, error) {
+func (repository LinkyTableRepository) GetLinkyIdentifierById(context context.Context, request *int) (modelResponse.GetLinkyIdentifierResponse, error) {
 	var result modelResponse.GetLinkyIdentifierResponse
 
-	if request == "" {
+	if request == nil {
 		return result, nil
 	}
 
@@ -22,13 +22,13 @@ func (repository LinkyTableRepository) GetLinkyIdentifier(context context.Contex
 		FROM
 			content_identifier
 		WHERE
-			identifier = $1
+			id = $1
 
 	`
 
 	rows, err := repository.Db.QueryContext(context, query, request)
 	if err != nil {
-		log.Error("[repository][GetLinkyIdentifier] error when QueryContext. ", err, request)
+		log.Error("[repository][GetLinkyIdentifierById] error when QueryContext(). ", err, request)
 
 		return result, err
 	}
@@ -38,7 +38,7 @@ func (repository LinkyTableRepository) GetLinkyIdentifier(context context.Contex
 	for rows.Next() {
 		err = rows.Scan(&result.IdentifierId, &result.Identifier, &result.Title)
 		if err != nil {
-			log.Error("[repository][GetLinkyIdentifier] error when Scan(). ", err, request)
+			log.Error("[repository][GetLinkyIdentifierById] error when Scan(). ", err, request)
 
 			return result, err
 		}
