@@ -32,7 +32,7 @@ func (repository LinkyTableRepository) GetTotalLinkyItem(context context.Context
 
 	rows, err := repository.Db.QueryContext(context, query, args...)
 	if err != nil {
-		log.Error("[repository][GetTotalLinkyItem] error when QueryContext. ", err)
+		log.Error("[repository][GetTotalLinkyItem] error when QueryContext(). ", err)
 		return 0, err
 	}
 
@@ -43,7 +43,7 @@ func (repository LinkyTableRepository) GetTotalLinkyItem(context context.Context
 	for rows.Next() {
 		err = rows.Scan(&totalItems)
 		if err != nil {
-			log.Error("[repository][GetTotalLinkyItem] error when rows.Scan(). ", err)
+			log.Error("[repository][GetTotalLinkyItem] error when Scan(). ", err)
 
 			return totalItems, err
 		}

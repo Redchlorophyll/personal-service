@@ -3,9 +3,10 @@ package httpservice
 import (
 	"strconv"
 
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	utilsConstant "github.com/Redchlorophyll/personal-service/internal/utils/constant"
 	utilsRequest "github.com/Redchlorophyll/personal-service/internal/utils/model/request"
-	"github.com/Redchlorophyll/personal-service/internal/utils/model/response"
+	modelResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
@@ -22,7 +23,7 @@ func (handler *LinkyHandler) GetLinky(fiberContext *fiber.Ctx) error {
 		perPage = 10
 	}
 
-	request := request.GetLinkyRequestQuery{
+	request := modelRequest.GetLinkyRequestQuery{
 		Identifier: identifer,
 		PaginationRequestQuery: utilsRequest.PaginationRequestQuery{
 			Page:    int(page),
@@ -33,11 +34,11 @@ func (handler *LinkyHandler) GetLinky(fiberContext *fiber.Ctx) error {
 	result, err := handler.LinkyService.GetLinky(fiberContext.Context(), request)
 
 	if err != nil {
-		log.Error("[handler][GetLinky] error GetLinky service function. ", err, request)
+		log.Error("[handler][GetLinky] error when execute GetLinky(). ", err, request)
 
-		return fiberContext.Status(fiber.StatusInternalServerError).JSON(response.GeneralResponse{
-			StatusCode: 500,
-			Message:    "there is something wrong in the system, please contact developer",
+		return fiberContext.Status(fiber.StatusInternalServerError).JSON(modelResponse.GeneralResponse{
+			StatusCode: fiber.StatusInternalServerError,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		})
 	}
 

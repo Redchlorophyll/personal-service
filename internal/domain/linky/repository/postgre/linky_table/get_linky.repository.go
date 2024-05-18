@@ -3,19 +3,22 @@ package linky_table
 import (
 	"context"
 
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
-	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	modelResponse "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
 	utilsFunction "github.com/Redchlorophyll/personal-service/internal/utils/function"
 	"github.com/gofiber/fiber/v2/log"
 )
 
-func (repository LinkyTableRepository) GetLinky(context context.Context, request request.GetLinkyRequestQuery) ([]response.LinkyItem, error) {
-	results := []response.LinkyItem{}
+func (repository LinkyTableRepository) GetLinky(context context.Context, request modelRequest.GetLinkyRequestQuery) ([]modelResponse.LinkyItem, error) {
+	results := []modelResponse.LinkyItem{}
 	args := []interface{}{}
 
 	offset := utilsFunction.GetPaginationOffset(request.Page)
 
-	query := `
+	var query string
+
+	if request.Identifier != "" {
+		query = `
 		SELECT
 			l.id,
 			l.img_url,
@@ -30,10 +33,6 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 			content_identifier AS ci ON li.type_id = ci.id
 		WHERE
 			l.deleted_at IS NULL
-	`
-
-	if request.Identifier != "" {
-		query += `
 		AND
 			ci.identifier = $1
 		ORDER BY
@@ -43,9 +42,18 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 		OFFSET
 			$3
 		`
+
 		args = append(args, request.Identifier, request.PerPage, offset)
 	} else {
-		query += `
+		query = `
+		SELECT
+			l.id,
+			l.img_url,
+			l.title,
+			l.description,
+			l.url_anchor
+		FROM
+			link AS l
 		ORDER BY
 			id DESC
 		LIMIT
@@ -59,7 +67,7 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 
 	rows, err := repository.Db.QueryContext(context, query, args...)
 	if err != nil {
-		log.Error("[repository][GetLinky] error when QueryContext. ", err, request)
+		log.Error("[repository][GetLinky] error when QueryContext(). ", err, request)
 
 		return results, err
 	}
@@ -67,7 +75,7 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 	defer rows.Close()
 
 	for rows.Next() {
-		var item response.LinkyItem
+		var item modelResponse.LinkyItem
 
 		err := rows.Scan(
 			&item.LinkyId,
@@ -77,7 +85,7 @@ func (repository LinkyTableRepository) GetLinky(context context.Context, request
 			&item.UrlAnchor,
 		)
 		if err != nil {
-			log.Panic("[repository][GetLinky] error when rows.Scan(). ", err, request)
+			log.Panic("[repository][GetLinky] error when Scan(). ", err, request)
 		}
 
 		results = append(results, item)

@@ -5,9 +5,11 @@ import (
 
 	requestModel "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
 	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
+	utilsConstant "github.com/Redchlorophyll/personal-service/internal/utils/constant"
 	"github.com/Redchlorophyll/personal-service/internal/utils/function"
 	utilsRequest "github.com/Redchlorophyll/personal-service/internal/utils/model/request"
 	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/log"
 )
 
@@ -20,12 +22,12 @@ func (service *LinkyService) GetLinky(context context.Context, request requestMo
 		Identifier: request.Identifier,
 	})
 	if err != nil {
-		log.Error("[service][GetLinky] error when querying data in getLinky function. ", err, context, request)
+		log.Error("[service][GetLinky] error when querying data in getLinky(). ", err, context, request)
 
 		return response.GetLinkyResponse{
 			GeneralResponse: utilsResponse.GeneralResponse{
-				StatusCode: 500,
-				Message:    "Internal Server Error, Please try again later!",
+				StatusCode: fiber.StatusInternalServerError,
+				Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 			},
 			Pagination: nil,
 			Metadata:   nil,
@@ -34,12 +36,12 @@ func (service *LinkyService) GetLinky(context context.Context, request requestMo
 
 	totalItem, err := service.LinkyRepository.GetTotalLinkyItem(context, request.Identifier)
 	if err != nil {
-		log.Error("[service][GetLinky] error when querying data in GetTotalLinkyItem function. ", err, context, request)
+		log.Error("[service][GetLinky] error when querying data in GetTotalLinkyItem(). ", err, context, request)
 
 		return response.GetLinkyResponse{
 			GeneralResponse: utilsResponse.GeneralResponse{
-				StatusCode: 500,
-				Message:    "Internal Server Error, Please try again later!",
+				StatusCode: fiber.StatusInternalServerError,
+				Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 			},
 			Pagination: nil,
 			Metadata:   nil,
@@ -52,8 +54,8 @@ func (service *LinkyService) GetLinky(context context.Context, request requestMo
 
 		return response.GetLinkyResponse{
 			GeneralResponse: utilsResponse.GeneralResponse{
-				StatusCode: 500,
-				Message:    "Internal Server Error, Please try again later!",
+				StatusCode: fiber.StatusInternalServerError,
+				Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 			},
 			Pagination: nil,
 			Metadata:   nil,
@@ -68,7 +70,7 @@ func (service *LinkyService) GetLinky(context context.Context, request requestMo
 
 	return response.GetLinkyResponse{
 		GeneralResponse: utilsResponse.GeneralResponse{
-			StatusCode: 200,
+			StatusCode: fiber.StatusOK,
 			Message:    "Success retrieve linky data!",
 		},
 		Data:       linkData,

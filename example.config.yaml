@@ -9,3 +9,4 @@ database:
     max_open_conns: 16
 ports:
   personal_service_api: "4040"
+secret_token: "secrettt"
