@@ -16,4 +16,7 @@ type LinkyHandlerConfig struct {
 type LinkyHandlerProvider interface {
 	SetRoute(app *fiber.App)
 	GetLinky(fiberContext *fiber.Ctx) error
+	DeleteLinky(fiberContext *fiber.Ctx) error
+	CreateLinky(fiberContext *fiber.Ctx) error
+	CreateIdentifier(fiberContext *fiber.Ctx) error
 }
