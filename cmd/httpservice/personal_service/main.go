@@ -15,6 +15,7 @@ func main() {
 	httpService := PersonalServiceConfig.InitializeService(serv)
 
 	httpService.LinkyHandler.SetRoute(app)
+	httpService.AccountHandler.SetRoute(app)
 
 	log.Info("starting serve on ", config.Ports.PersonalServiceApi, ". Env: ", config.Env)
 	log.Fatal(app.Listen(":" + config.Ports.PersonalServiceApi))
