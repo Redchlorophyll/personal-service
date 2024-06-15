@@ -41,7 +41,7 @@ func (repository AccountTableRepository) GetAccountByEmail(context context.Conte
 	if err != nil {
 		if err == sql.ErrNoRows {
 			// Handle case where no rows were returned
-			log.Warn("[account][repository][GetAccountByEmail] no rows found for email: ", email)
+			log.Warn("[account][repository][GetAccountByEmail] no rows found for email: ", context, err, email)
 			return result, errors.New("[ERROR]: not found")
 		}
 

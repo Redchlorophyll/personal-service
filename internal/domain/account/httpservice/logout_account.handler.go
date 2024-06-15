@@ -9,14 +9,21 @@ import (
 
 func (handler *AccountHandler) LogoutAccount(fiberContext *fiber.Ctx) error {
 	token := fiberContext.Cookies("token")
-
-	err := handler.AccountService.LogoutAccount(fiberContext.Context(), token)
+	context := fiberContext.Context()
+	err := handler.AccountService.LogoutAccount(context, token)
 	if err != nil {
-		log.Error("[handler][CreateAccount] error when BodyParser(). ", err)
+		log.Error("[handler][CreateAccount] error when BodyParser(). ", context, err, token)
 
-		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
+		if err.Error() == "[ERROR]: not found" {
+			return fiberContext.Status(fiber.StatusUnauthorized).JSON(utilsResponse.GeneralResponse{
+				StatusCode: fiber.StatusBadGateway,
+				Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusUnauthorized].Error(),
+			})
+		}
+
+		return fiberContext.Status(fiber.StatusInternalServerError).JSON(utilsResponse.GeneralResponse{
 			StatusCode: fiber.StatusBadRequest,
-			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusBadRequest].Error(),
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusInternalServerError].Error(),
 		})
 	}
 

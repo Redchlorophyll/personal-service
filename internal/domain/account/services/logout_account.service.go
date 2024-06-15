@@ -7,7 +7,14 @@ import (
 )
 
 func (service *AccountService) LogoutAccount(context context.Context, request string) error {
-	err := service.AccountRepository.RevokeSessionToken(context, request)
+	_, err := service.AccountRepository.GetAccountBySessionToken(context, request)
+	if err != nil {
+		log.Error("[account][service][LogoutAccount] error when execute GetAccountBySessionToken(). ", err, context, request)
+
+		return err
+	}
+
+	err = service.AccountRepository.RevokeSessionToken(context, request)
 	if err != nil {
 		log.Error("[account][service][LogoutAccount] error when execute RevokeSessionToken(). ", err, context, request)
 
