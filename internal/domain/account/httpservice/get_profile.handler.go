@@ -10,10 +10,17 @@ import (
 
 func (handler *AccountHandler) GetProfile(fiberContext *fiber.Ctx) error {
 	token := fiberContext.Cookies("token")
-
-	user, err := handler.AccountService.GetProfile(fiberContext.Context(), token)
+	context := fiberContext.Context()
+	user, err := handler.AccountService.GetProfile(context, token)
 	if err != nil {
-		log.Error("[handler][CreateAccount] error when BodyParser(). ", err)
+		log.Error("[handler][CreateAccount] error when GetProfile(). ", context, token, err)
+
+		if err.Error() != "[ERROR]: unauthorized access" {
+			return fiberContext.Status(fiber.StatusUnauthorized).JSON(utilsResponse.GeneralResponse{
+				StatusCode: fiber.StatusBadRequest,
+				Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusUnauthorized].Error(),
+			})
+		}
 
 		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
 			StatusCode: fiber.StatusBadRequest,
@@ -23,8 +30,8 @@ func (handler *AccountHandler) GetProfile(fiberContext *fiber.Ctx) error {
 
 	return fiberContext.Status(fiber.StatusOK).JSON(response.GetProfileResponse{
 		GeneralResponse: utilsResponse.GeneralResponse{
-			StatusCode: fiber.StatusBadRequest,
-			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusBadRequest].Error(),
+			StatusCode: fiber.StatusOK,
+			Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusOK].Error(),
 		},
 		Data: &user,
 	})

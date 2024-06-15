@@ -1,7 +1,21 @@
 package social_media_table
 
-type SocialMediaTableRepositoryConfig struct{}
+import (
+	"context"
+	"database/sql"
 
-type SocialmediaTableRepository struct{}
+	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/request"
+	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/response"
+)
 
-type SocialMediaTableRepositoryProvider interface{}
+type SocialMediaTableRepositoryConfig struct {
+	Db *sql.DB
+}
+
+type SocialmediaTableRepository struct {
+	Db *sql.DB
+}
+
+type SocialMediaTableRepositoryProvider interface {
+	GetSocialMedias(context context.Context, request request.GetSocialMediaRequest) ([]response.GetSocialMediaRepositoryResponse, error)
+}

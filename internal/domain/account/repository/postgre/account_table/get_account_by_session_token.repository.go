@@ -14,6 +14,7 @@ func (repository AccountTableRepository) GetAccountBySessionToken(context contex
 
 	query := `
 		SELECT
+			id,
 			session_token_expired_at,
 			session_token,
 			user_name,
@@ -30,6 +31,7 @@ func (repository AccountTableRepository) GetAccountBySessionToken(context contex
 	rows := repository.Db.QueryRowContext(context, query, request)
 
 	err := rows.Scan(
+		&result.Id,
 		&result.SessionTokenExpiredAt,
 		&result.SessionToken,
 		&result.Username,

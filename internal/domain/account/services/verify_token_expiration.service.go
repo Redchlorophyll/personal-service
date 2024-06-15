@@ -9,7 +9,7 @@ import (
 )
 
 func (service *AccountService) VerifyTokenExpiration(context context.Context, sessionTokenExpiredAt *time.Time) error {
-	if sessionTokenExpiredAt.After(time.Now()) {
+	if sessionTokenExpiredAt.Before(time.Now()) {
 		log.Error("[account][service][VerifyTokenExpiration] error when execute service.VerifyTokenExpiration(). ", context, sessionTokenExpiredAt)
 		return errors.New("unathorized access. session is expired")
 	}

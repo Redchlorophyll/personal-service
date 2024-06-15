@@ -2,7 +2,9 @@ package services
 
 import (
 	"context"
+	"errors"
 
+	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/constant"
 	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/request"
 	"github.com/gofiber/fiber/v2/log"
 )
@@ -10,18 +12,31 @@ import (
 func (service *AccountService) GetProfile(context context.Context, req string) (request.ProfileData, error) {
 	account, err := service.AccountRepository.GetAccountBySessionToken(context, req)
 	if err != nil {
-		log.Error("[account][service][LogoutAccount] error when execute RevokeSessionToken(). ", err, context, req)
+		log.Error("[account][service][GetProfile] error when execute GetAccountBySessionToken(). ", err, context, req)
 
 		return request.ProfileData{}, err
 	}
 
 	// check if session already expired.
 	err = service.VerifyTokenExpiration(context, account.SessionTokenExpiredAt)
-
 	if err != nil {
-		log.Error("[account][service][LogoutAccount] error when execute service.VerifyTokenExpiration(). ", err, context, req)
+		log.Error("[account][service][GetProfile] error when execute service.VerifyTokenExpiration(). ", err, context, req)
+
+		return request.ProfileData{}, errors.New("[ERROR]: unauthorized access")
+	}
+
+	socialMedias, err := service.SocialMediaRepository.GetSocialMedias(context, request.GetSocialMediaRequest{
+		AccountId: account.Id,
+	})
+	if err != nil {
+		log.Error("[account][service][GetProfile] error when execute service.GetSocialMedias(). ", err, context, req, account)
 
 		return request.ProfileData{}, err
+	}
+
+	MappedSocialMedias := make(map[constant.SocialMedia]string)
+	for _, value := range socialMedias {
+		MappedSocialMedias[value.SocialMedia] = value.Url
 	}
 
 	return request.ProfileData{
@@ -29,5 +44,6 @@ func (service *AccountService) GetProfile(context context.Context, req string) (
 		Email:       account.Email,
 		FullName:    account.FullName,
 		Description: account.Description,
+		SocialMedia: MappedSocialMedias,
 	}, nil
 }
