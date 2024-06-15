@@ -24,9 +24,11 @@ func (handler *AccountHandler) CreateAccount(fiberContext *fiber.Ctx) error {
 	request.Email = fiberContext.FormValue("email")
 	request.Password = fiberContext.FormValue("password")
 
-	err = handler.AccountService.CreateAccount(fiberContext.Context(), request)
+	context := fiberContext.Context()
+	err = handler.AccountService.CreateAccount(context, request)
 
 	if err == nil {
+		// success
 		return fiberContext.Status(fiber.StatusOK).JSON(utilsResponse.GeneralResponse{
 			StatusCode: fiber.StatusOK,
 			Message:    "successfully create account",
@@ -34,7 +36,7 @@ func (handler *AccountHandler) CreateAccount(fiberContext *fiber.Ctx) error {
 	}
 
 	if err.Error() == "[ERROR]: duplicate key" {
-		log.Error("[handler][CreateAccount] error duplicate key. ", err, request)
+		log.Error("[account][httpservice][CreateAccount] error duplicate key. ", context, err, request)
 		ErrorCode := 1000
 
 		return fiberContext.Status(fiber.StatusBadRequest).JSON(utilsResponse.GeneralResponse{
@@ -44,7 +46,7 @@ func (handler *AccountHandler) CreateAccount(fiberContext *fiber.Ctx) error {
 		})
 	}
 
-	log.Error("[handler][CreateAccount] error when CreateAccount(). ", err, request)
+	log.Error("[account][httpservice][CreateAccount] error when execute CreateAccount(). ", context, err, request)
 
 	return fiberContext.Status(fiber.StatusBadGateway).JSON(utilsResponse.GeneralResponse{
 		StatusCode: fiber.StatusBadGateway,

@@ -2,6 +2,8 @@ package account_table
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 
 	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/response"
 	"github.com/gofiber/fiber/v2/log"
@@ -25,32 +27,26 @@ func (repository AccountTableRepository) GetAccountByEmail(context context.Conte
 			email = $1;
 	`
 
-	rows, err := repository.Db.QueryContext(context, query, email)
+	rows := repository.Db.QueryRowContext(context, query, email)
 
+	err := rows.Scan(
+		&result.SessionTokenExpiredAt,
+		&result.SessionToken,
+		&result.Username,
+		&result.Email,
+		&result.FullName,
+		&result.Description,
+		&result.Password,
+	)
 	if err != nil {
-		log.Error("[account][repository][GetAccountByEmail] error when QueryContext(). ", err, email)
-
-		return result, err
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		err = rows.Scan(
-			&result.SessionTokenExpiredAt,
-			&result.SessionToken,
-			&result.Username,
-			&result.Email,
-			&result.FullName,
-			&result.Description,
-			&result.Password,
-		)
-
-		if err != nil {
-			log.Error("[account][repository][GetAccountByEmail] error when Scan(). ", err, email)
-
-			return result, err
+		if err == sql.ErrNoRows {
+			// Handle case where no rows were returned
+			log.Warn("[account][repository][GetAccountByEmail] no rows found for email: ", email)
+			return result, errors.New("[ERROR]: not found")
 		}
+
+		log.Error("[account][repository][GetAccountByEmail] error when Scan(). ", err, email)
+		return result, err
 	}
 
 	return result, nil
