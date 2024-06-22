@@ -17,7 +17,7 @@ type AccountTableRepositoryConfig struct {
 }
 
 type AccountTableRepositoryProvider interface {
-	CreateAccount(context context.Context, request request.CreateAccountRepositoryRequest) error
+	CreateAccount(context context.Context, request request.CreateAccountRepositoryRequest) (response.CreateAccountRepositoryResponse, error)
 	GetAccountBySessionToken(context context.Context, request string) (response.GetAccountRespositoryResponse, error)
 	RevokeSessionToken(context context.Context, request string) error
 	SetSessionToken(context context.Context, request request.SetSessionTokenRequest) error

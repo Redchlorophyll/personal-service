@@ -8,21 +8,24 @@ import (
 	"github.com/Redchlorophyll/personal-service/internal/config/firebase"
 	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/request"
 	AccountTable "github.com/Redchlorophyll/personal-service/internal/domain/account/repository/postgre/account_table"
+	AccountUrlSlugTable "github.com/Redchlorophyll/personal-service/internal/domain/account/repository/postgre/account_url_slug_table"
 	SocialMediaTable "github.com/Redchlorophyll/personal-service/internal/domain/account/repository/postgre/social_media_table"
 )
 
 type AccountService struct {
-	AccountRepository     AccountTable.AccountTableRepositoryProvider
-	FirebaseService       firebase.FirebaseServiceProvider
-	SocialMediaRepository SocialMediaTable.SocialMediaTableRepositoryProvider
-	Env                   envVariable.Config
+	AccountRepository        AccountTable.AccountTableRepositoryProvider
+	FirebaseService          firebase.FirebaseServiceProvider
+	SocialMediaRepository    SocialMediaTable.SocialMediaTableRepositoryProvider
+	AccountUrlSlugRepository AccountUrlSlugTable.AccountUrlSlugTableRepositoryProvider
+	Env                      envVariable.Config
 }
 
 type AccountServiceConfig struct {
-	AccountRepository     AccountTable.AccountTableRepositoryProvider
-	FirebaseService       firebase.FirebaseServiceProvider
-	SocialMediaRepository SocialMediaTable.SocialMediaTableRepositoryProvider
-	Env                   envVariable.Config
+	AccountRepository        AccountTable.AccountTableRepositoryProvider
+	FirebaseService          firebase.FirebaseServiceProvider
+	SocialMediaRepository    SocialMediaTable.SocialMediaTableRepositoryProvider
+	AccountUrlSlugRepository AccountUrlSlugTable.AccountUrlSlugTableRepositoryProvider
+	Env                      envVariable.Config
 }
 
 type AccountServiceProvider interface {

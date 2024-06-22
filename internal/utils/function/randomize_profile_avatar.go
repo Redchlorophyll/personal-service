@@ -2,7 +2,6 @@ package function
 
 import (
 	"math/rand"
-	"time"
 )
 
 func RandomizeProfileAvatar() string {
@@ -28,8 +27,6 @@ func RandomizeProfileAvatar() string {
 		"https://firebasestorage.googleapis.com/v0/b/account-service-bucket.appspot.com/o/default-avatar%2FadventurerNeutral-1718296345057.svg?alt=media",
 		"https://firebasestorage.googleapis.com/v0/b/account-service-bucket.appspot.com/o/default-avatar%2FadventurerNeutral-1718296347289.svg?alt=media",
 	}
-
-	rand.Seed(time.Now().UnixNano())
 
 	randomIndex := rand.Intn(len(avatars))
 	return avatars[randomIndex]

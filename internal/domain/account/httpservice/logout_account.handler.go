@@ -16,7 +16,7 @@ func (handler *AccountHandler) LogoutAccount(fiberContext *fiber.Ctx) error {
 
 		if err.Error() == "[ERROR]: not found" {
 			return fiberContext.Status(fiber.StatusUnauthorized).JSON(utilsResponse.GeneralResponse{
-				StatusCode: fiber.StatusBadGateway,
+				StatusCode: fiber.StatusUnauthorized,
 				Message:    utilsConstant.ERROR_MESSAGE[fiber.StatusUnauthorized].Error(),
 			})
 		}

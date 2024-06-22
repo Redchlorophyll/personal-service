@@ -5,11 +5,13 @@ import (
 	"errors"
 
 	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/request"
+	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/response"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/lib/pq"
 )
 
-func (repository AccountTableRepository) CreateAccount(context context.Context, request request.CreateAccountRepositoryRequest) error {
+func (repository AccountTableRepository) CreateAccount(context context.Context, request request.CreateAccountRepositoryRequest) (response.CreateAccountRepositoryResponse, error) {
+	var result response.CreateAccountRepositoryResponse
 	query := `
 		INSERT INTO
 			account_table
@@ -24,9 +26,11 @@ func (repository AccountTableRepository) CreateAccount(context context.Context, 
 			)
 		VALUES
 			($1, $2, $3, $4, $5, $6, NOW())
+		RETURNING
+			id
 	`
 
-	_, err := repository.Db.ExecContext(
+	err := repository.Db.QueryRowContext(
 		context,
 		query,
 		request.Email,
@@ -35,17 +39,17 @@ func (repository AccountTableRepository) CreateAccount(context context.Context, 
 		request.Description,
 		request.FullName,
 		request.Password,
-	)
+	).Scan(&result.Id)
 
 	if err == nil {
-		return nil
+		return result, nil
 	}
 
 	if pqErr, ok := err.(*pq.Error); ok && pqErr.Code == "23505" {
 		log.Error("[account][repository][CreateAccount] error duplicate key. ", err, request)
-		return errors.New("[ERROR]: duplicate key")
+		return result, errors.New("[ERROR]: duplicate key")
 	}
 
 	log.Error("[account][repository][CreateAccount] error when ExecContext(). ", err, request)
-	return err
+	return result, err
 }

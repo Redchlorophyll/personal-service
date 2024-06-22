@@ -5,6 +5,7 @@ import (
 	env "github.com/Redchlorophyll/personal-service/internal/config/environment_variable"
 	"github.com/Redchlorophyll/personal-service/internal/config/firebase"
 	AccountTable "github.com/Redchlorophyll/personal-service/internal/domain/account/repository/postgre/account_table"
+	AccountUrlSlugTable "github.com/Redchlorophyll/personal-service/internal/domain/account/repository/postgre/account_url_slug_table"
 	SocialMediaTable "github.com/Redchlorophyll/personal-service/internal/domain/account/repository/postgre/social_media_table"
 	AccountService "github.com/Redchlorophyll/personal-service/internal/domain/account/services"
 	contentRepositoryTable "github.com/Redchlorophyll/personal-service/internal/domain/linky/repository/postgre/content_identifier_table"
@@ -30,7 +31,12 @@ func GetService() *Service {
 			Db: db["personal_service"],
 		},
 	)
-	SocialMediaRepository := SocialMediaTable.NewSocialMediaTableRepository(
+	accountUrlSlugRepository := AccountUrlSlugTable.NewUrlSlugTable(
+		AccountUrlSlugTable.AccountUrlSlugTableRepositoryConfig{
+			Db: db["personal_service"],
+		},
+	)
+	socialMediaRepository := SocialMediaTable.NewSocialMediaTableRepository(
 		SocialMediaTable.SocialMediaTableRepositoryConfig{
 			Db: db["personal_service"],
 		},
@@ -41,10 +47,11 @@ func GetService() *Service {
 
 	// services
 	AccountService := AccountService.NewAccountService(AccountService.AccountServiceConfig{
-		AccountRepository:     accountRepository,
-		FirebaseService:       firebaseService,
-		SocialMediaRepository: SocialMediaRepository,
-		Env:                   env,
+		AccountRepository:        accountRepository,
+		FirebaseService:          firebaseService,
+		SocialMediaRepository:    socialMediaRepository,
+		AccountUrlSlugRepository: accountUrlSlugRepository,
+		Env:                      env,
 	})
 
 	return &Service{

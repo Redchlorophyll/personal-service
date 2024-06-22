@@ -13,6 +13,7 @@ func (handler *LinkyHandler) SetRoute(app *fiber.App) {
 	group.Post("/link/identifier", utilsFunction.CheckUserAccess(), handler.CreateIdentifier)
 	group.Patch("/link/:linkId", utilsFunction.CheckUserAccess(), handler.UpdateLinky)
 	group.Delete("/link/:linkId", utilsFunction.CheckUserAccess(), handler.DeleteLinky)
+	group.Get("/profile/:fullNameSlug", handler.GetProfileLinky)
 
 	// group.Post("/ping")
 }

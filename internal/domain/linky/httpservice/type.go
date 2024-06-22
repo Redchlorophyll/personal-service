@@ -19,4 +19,5 @@ type LinkyHandlerProvider interface {
 	DeleteLinky(fiberContext *fiber.Ctx) error
 	CreateLinky(fiberContext *fiber.Ctx) error
 	CreateIdentifier(fiberContext *fiber.Ctx) error
+	GetProfileLinky(fiberContext *fiber.Ctx) error
 }
