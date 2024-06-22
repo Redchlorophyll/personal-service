@@ -23,4 +23,5 @@ type AccountTableRepositoryProvider interface {
 	SetSessionToken(context context.Context, request request.SetSessionTokenRequest) error
 	GetAccountByEmail(context context.Context, request string) (response.GetAccountRespositoryResponse, error)
 	GetAccountsByEmailOrUsername(context context.Context, request request.GetAccountByEmailOrUsernameRequest) ([]response.GetAccountRespositoryResponse, error)
+	GetAccountsById(context context.Context, requestId int64) (response.GetAccountRespositoryResponse, error)
 }

@@ -58,9 +58,10 @@ func GetService() *Service {
 		LinkyService: LinkyService.NewService(LinkyService.LinkyServiceConfig{
 			LinkyRepository:             linkyRepository,
 			ContentIdentifierRepository: contentIdentifierRepository,
+			AccountUrlSlugRepository:    accountUrlSlugRepository,
 			Env:                         env,
 
-			// services deps
+			// services deps.
 			AccountService: AccountService,
 		}),
 		AccountService: AccountService,

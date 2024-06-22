@@ -1,6 +1,7 @@
 package httpservice
 
 import (
+	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/request"
 	"github.com/Redchlorophyll/personal-service/internal/domain/account/model/response"
 	utilsConstant "github.com/Redchlorophyll/personal-service/internal/utils/constant"
 	utilsResponse "github.com/Redchlorophyll/personal-service/internal/utils/model/response"
@@ -11,7 +12,9 @@ import (
 func (handler *AccountHandler) GetProfile(fiberContext *fiber.Ctx) error {
 	token := fiberContext.Cookies("token")
 	context := fiberContext.Context()
-	user, err := handler.AccountService.GetProfile(context, token)
+	user, err := handler.AccountService.GetProfile(context, request.GetProfileServiceRequest{
+		SessionToken: token,
+	})
 	if err != nil {
 		log.Error("[handler][CreateAccount] error when GetProfile(). ", context, token, err)
 

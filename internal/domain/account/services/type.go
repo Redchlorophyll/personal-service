@@ -30,7 +30,7 @@ type AccountServiceConfig struct {
 
 type AccountServiceProvider interface {
 	CreateAccount(context context.Context, request request.CreateAccountRequest) error
-	GetProfile(context context.Context, req string) (request.ProfileData, error)
+	GetProfile(context context.Context, req request.GetProfileServiceRequest) (request.ProfileData, error)
 	Login(context context.Context, request request.LoginRequest) error
 	LogoutAccount(context context.Context, request string) error
 	VerifyTokenExpiration(context context.Context, sessionTokenExpiredAt *time.Time) error

@@ -5,6 +5,8 @@ import (
 	"database/sql"
 
 	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	modelRequest "github.com/Redchlorophyll/personal-service/internal/domain/linky/model/request"
+	"github.com/Redchlorophyll/personal-service/internal/domain/linky/model/response"
 )
 
 type ContentIdentifierTableRepository struct {
@@ -17,4 +19,5 @@ type ContentIdentifierTableRepositoryConfig struct {
 
 type ContentIdentifierTableRepositoryProvider interface {
 	CreateIdentifier(context context.Context, request request.CreateIdentifierRequest) error
+	GetIdentifierBySlugId(context context.Context, request modelRequest.GetIdentifierBySlugIdRepositoryRequest) ([]response.GetIdentifierBySlugIdRepositoryResponse, error)
 }
