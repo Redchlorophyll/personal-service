@@ -12,6 +12,12 @@ type GetLinkyResponse struct {
 	Pagination *utilsResponse.PaginationResponse `json:"pagination"`
 }
 
+type GetCleanLinkyResponse struct {
+	Metadata   *GetLinkyIdentifierResponse       `json:"metadata"`
+	Data       []LinkyItem                       `json:"data"`
+	Pagination *utilsResponse.PaginationResponse `json:"pagination"`
+}
+
 type LinkyItem struct {
 	LinkyId     int     `db:"id" json:"linky_id"`
 	Img         *string `db:"img_url" json:"img"`

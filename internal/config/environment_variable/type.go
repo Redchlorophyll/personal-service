@@ -15,9 +15,15 @@ type PortsConfig struct {
 	PersonalServiceApi string `yaml:"personal_service_api"`
 }
 
+type FirebaseConfig struct {
+	Secretpath    string `yaml:"secret_path"`
+	StorageBucket string `yaml:"storage_bucket"`
+}
+
 type Config struct {
 	Env         string                    `yaml:"env"` // env: "local" | "staging" | "production"
 	Database    map[string]DatabaseConfig `yaml:"database"`
 	Ports       PortsConfig               `yaml:"ports"`
 	SecretToken string                    `yaml:"secret_token"`
+	Firebase    map[string]FirebaseConfig `yaml:"firebase"`
 }
